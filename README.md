@@ -43,7 +43,7 @@ Follow the Vercel Postgres Quickstart (https://vercel.com/docs/storage/vercel-po
 1. Go to your Vercel project dashboard.
 2. Navigate to the "Storage" section and create a new Postgres database.
 3. Follow the instructions to set up the database.
-4. Copy the connection string provided by Vercel.
+4. Copy the .env.development.local from Vercel.
 
 ### 4. Create Database Tables
 Run the following script to create the necessary tables in your PostgreSQL database:
