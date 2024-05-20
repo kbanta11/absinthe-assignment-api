@@ -1,36 +1,191 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Absinthe API and Frontend Project
 
-## Getting Started
+This project demonstrates a Next.js application with both backend API routes and a frontend utility to manage and distribute points for users.
 
-First, run the development server:
+## Features
+
+- **API Endpoints**: Generate API keys, manage points, and track events.
+- **Frontend Utility**: A simple interface to manually input API keys and distribute points to addresses.
+
+## Prerequisites
+
+- Node.js (>=14.x.x)
+- bun, npm or yarn
+- Vercel account (for deployment)
+
+## Setup
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/absinthe-project.git
+cd absinthe-project
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
+```bash
+bun install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For npm:
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+For Yarn:
+```bash
+yarn install
+```
 
-## Learn More
+### 3. Set Up Environment Variables
+Create a .env.local file in the root of your project and add the following environment variables:
 
-To learn more about Next.js, take a look at the following resources:
+env
+Copy code
+DATABASE_URL=your-vercel-postgres-connection-string
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Create Database Tables
+Run the following script to create the necessary tables in your PostgreSQL database:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+ts-node scripts/createTables.ts
+```
 
-## Deploy on Vercel
+### 5. Start the Development Server
+```bash
+bun run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For NPM:
+```bash
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Fpr Yarn:
+```bash
+yarn dev
+```
+
+The development server should now be running at http://localhost:3000.
+
+## API Endpoints
+### Generate API Key and Campaign ID
+#### Endpoint: POST /api/generate-key
+
+This endpoint generates a new API key and campaign ID.
+
+**Request:**
+
+```bash
+curl -X POST http://localhost:3000/api/generate-key
+```
+
+**Response:**
+```json
+{
+  "apiKey": "generated-api-key",
+  "campaignId": "generated-campaign-id"
+}
+```
+
+### Distribute Points
+#### Endpoint: POST /api/distribute
+
+This endpoint distributes points to an address based on an event.
+
+**Request:**
+```bash
+curl -X POST http://localhost:3000/api/distribute \
+-H "Content-Type: application/json" \
+-H "api-key: your-api-key" \
+-H "campaign-id: your-campaign-id" \
+-d '{
+  "eventName": "event_name",
+  "pointsData": {
+    "points": 100,
+    "address": "0x123..."
+  }
+}'
+```
+
+**Response:**
+```json
+{
+  "message": "Points distributed successfully."
+}
+```
+
+### Get Points
+#### Endpoint: GET /api/points?address=0x123...
+
+This endpoint retrieves the total points for a specific address.
+
+**Request:**
+```bash
+curl -X GET http://localhost:3000/api/points \
+-H "api-key: your-api-key" \
+-H "campaign-id: your-campaign-id" \
+-d '{
+  "address": "0x123..."
+}'
+```
+
+**Response:**
+```json
+[
+  {
+    "campaign_id": "your-campaign-id",
+    "address": "0x123...",
+    "points": 100,
+    "last_modified": "2023-05-16T12:34:56.789Z"
+  }
+]
+```
+
+### Get Points by Event
+#### Endpoint: GET /api/points?address=0x123...&eventName=event_name
+
+This endpoint retrieves points for a specific address filtered by event name.
+
+**Request:**
+```bash
+curl -X GET http://localhost:3000/api/points \
+-H "api-key: your-api-key" \
+-H "campaign-id: your-campaign-id" \
+-d '{
+  "address": "0x123...",
+  "eventName": "event_name"
+}'
+```
+
+**Response:**
+```json
+[
+  {
+    "campaign_id": "your-campaign-id",
+    "address": "0x123...",
+    "event_name": "event_name",
+    "points": 100,
+    "timestamp": "2023-05-16T12:34:56.789Z"
+  }
+]
+```
+
+## Frontend Utility
+The frontend utility allows users to manually input their API key and distribute points to an address.
+
+### Access the Frontend Utility
+Navigate to http://localhost:3000 in your web browser.
+
+### Distribute Points Using the Frontend
+1. Enter your API key, campaign ID, event name, points, and address in the form.
+2. Click the "Distribute Points" button.
+3. The message below the form will indicate whether the points were distributed successfully or if there was an error.
+
+## Deployment
+To deploy this project to Vercel:
+
+1. Push your repository to GitHub or another Git hosting service.
+2. Sign in to Vercel and import your project.
+3. Set up the environment variables in the Vercel dashboard.
+4. Deploy the project with `vercel` command line.
