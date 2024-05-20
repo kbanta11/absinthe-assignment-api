@@ -18,7 +18,7 @@ This project demonstrates a Next.js application with both backend API routes and
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/absinthe-project.git
+git clone https://github.com/kbanta11/absinthe-assignment-api
 cd absinthe-project
 ```
 
@@ -38,7 +38,7 @@ yarn install
 ```
 
 ### 3. Set Up Vercel Postgres Database
-Follow the Vercel Postgres Quickstart (https://vercel.com/docs/storage/vercel-postgres/quickstart) to set up your Postgres database on Vercel. Once set up, you will get the connection string for your database.
+Follow the Vercel Postgres Quickstart (https://vercel.com/docs/storage/vercel-postgres/quickstart) to set up your Postgres database on Vercel. Once set up, you will get the connection string for your database. You will need to have a Vercel project setup (https://vercel.com/docs/getting-started-with-vercel/projects-deployments).
 
 1. Go to your Vercel project dashboard.
 2. Navigate to the "Storage" section and create a new Postgres database.
@@ -195,5 +195,4 @@ To deploy this project to Vercel:
 
 1. Push your repository to GitHub or another Git hosting service.
 2. Sign in to Vercel and import your project.
-3. Set up the environment variables in the Vercel dashboard.
-4. Deploy the project with `vercel` command line.
+3. Deploy the project with `vercel` command line tool.
