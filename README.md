@@ -37,12 +37,13 @@ For Yarn:
 yarn install
 ```
 
-### 3. Set Up Environment Variables
-Create a .env.local file in the root of your project and add the following environment variables:
+### 3. Set Up Vercel Postgres Database
+Follow the Vercel Postgres Quickstart (https://vercel.com/docs/storage/vercel-postgres/quickstart) to set up your Postgres database on Vercel. Once set up, you will get the connection string for your database.
 
-env
-Copy code
-DATABASE_URL=your-vercel-postgres-connection-string
+1. Go to your Vercel project dashboard.
+2. Navigate to the "Storage" section and create a new Postgres database.
+3. Follow the instructions to set up the database.
+4. Copy the connection string provided by Vercel.
 
 ### 4. Create Database Tables
 Run the following script to create the necessary tables in your PostgreSQL database:
@@ -83,8 +84,9 @@ curl -X POST http://localhost:3000/api/generate-key
 **Response:**
 ```json
 {
-  "apiKey": "generated-api-key",
-  "campaignId": "generated-campaign-id"
+  "API_KEY": "generated-api-key",
+  "WARNING": "Make sure to securely store this key. You will not be able to access it again.",
+  "CAMPAIGN_ID": "generated-campaign-id"
 }
 ```
 
@@ -111,7 +113,7 @@ curl -X POST http://localhost:3000/api/distribute \
 **Response:**
 ```json
 {
-  "message": "Points distributed successfully."
+  "success": true
 }
 ```
 
@@ -134,10 +136,13 @@ curl -X GET http://localhost:3000/api/points \
 ```json
 [
   {
-    "campaign_id": "your-campaign-id",
-    "address": "0x123...",
-    "points": 100,
-    "last_modified": "2023-05-16T12:34:56.789Z"
+    "success": true,
+    "rows": [{
+        "campaign_id": "your-campaign-id",
+        "address": "0x123...",
+        "points": 100,
+        "last_modified": "2023-05-16T12:34:56.789Z"
+    }]
   }
 ]
 ```
@@ -162,11 +167,14 @@ curl -X GET http://localhost:3000/api/points \
 ```json
 [
   {
-    "campaign_id": "your-campaign-id",
-    "address": "0x123...",
-    "event_name": "event_name",
-    "points": 100,
-    "timestamp": "2023-05-16T12:34:56.789Z"
+    "success": true,
+    "rows": [{
+        "campaign_id": "your-campaign-id",
+        "address": "0x123...",
+        "event_name": "event_name",
+        "points": 100,
+        "timestamp": "2023-05-16T12:34:56.789Z"
+    }]
   }
 ]
 ```
