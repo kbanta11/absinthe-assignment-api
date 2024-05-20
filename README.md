@@ -91,7 +91,7 @@ curl -X POST http://localhost:3000/api/generate-key
 ```
 
 ### Distribute Points
-#### Endpoint: POST /api/distribute
+#### Endpoint: POST /api/distribute-points
 
 This endpoint distributes points to an address based on an event.
 
@@ -124,7 +124,7 @@ This endpoint retrieves the total points for a specific address.
 
 **Request:**
 ```bash
-curl -X GET http://localhost:3000/api/points \
+curl -X GET http://localhost:3000/api/get-points \
 -H "api-key: your-api-key" \
 -H "campaign-id: your-campaign-id" \
 -d '{
